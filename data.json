@@ -1,0 +1,31 @@
+[
+  {
+    "username": "",
+    "password": "",
+    "description": "Empty credentials"
+  },
+  {
+    "username": "+12@ayssoftwaresolution.com",
+    "password": "Pass@321",
+    "description": "Invalid credentials"
+  },
+  {
+    "username": "mihir.agrawal+12@ayssoftwaresolution.com",
+    "password": "Ays@123",
+    "description": "Valid credentials"
+  },
+  {
+    "username": "mihir.agrawal+21@ayssoftwaresolution.com",
+    "password": "Ays@123",
+    "description": "Valid credentials"
+  }
+]
+
+
+
+
+
+
+
+
+

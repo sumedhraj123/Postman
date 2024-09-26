@@ -1,0 +1,270 @@
+{
+	"info": {
+		"_postman_id": "8a092a2b-fcbf-45ff-aa1f-86334f858c94",
+		"name": "Coalitionify-",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29681095"
+	},
+	"item": [
+		{
+			"name": "user_login_api",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// // Reset the current actor index at the start of the collection run",
+							"// pm.environment.set(\"currentActorIndex\", 0);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"    var jsonData = pm.response.json();",
+							"    var username=pm.environment.get(\"username\");",
+							"    var password=pm.environment.get(\"password\");",
+							"    var description=pm.environment.get(\"description\");",
+							"",
+							"var description = pm.iterationData.get(\"description\") || pm.environment.get(\"description\");",
+							"",
+							"    // Valid credentials",
+							"    if ( description === \"Valid credentials\") ",
+							"    {",
+							"        // Test case: Verify that login is successful and access token is present",
+							"        pm.test(\"Should successfully log in with valid credentials\", function() {",
+							"            pm.expect(pm.response.code).to.eql(200);",
+							"            pm.expect(jsonData.accessToken).to.be.a('string').that.is.not.empty;",
+							"            console.log(\"Login success with access token: \" + jsonData.access_token);",
+							"        });",
+							"        ",
+							"        // Test case: Verify that the access token is present and not empty",
+							"        pm.test(\"Access token should be present and not empty\", function() {",
+							"            pm.expect(jsonData.accessToken).to.be.a('string').that.is.not.empty;",
+							"        });",
+							"",
+							"    } else if (description  === \"Invalid credentials\") {",
+							"        // Test case: Verify that login fails with invalid credentials and no access token is returned",
+							"        pm.test(\"Login Should fail  with invalid credentials\", function() {",
+							"            pm.expect(pm.response.code).to.eql(401);",
+							"            pm.expect(jsonData.accessToken).to.not.exist;",
+							"            console.log(\"Login failed: Invalid credentials.\");",
+							"            //  postman.setNextRequest(null);",
+							"        });",
+							"",
+							"        // Test case: Verify that no access token is present in response",
+							"        pm.test(\"Access token should not be present for invalid credentials\", function() {",
+							"            pm.expect(jsonData.accessToken).to.not.exist;",
+							"        });",
+							"",
+							"    } else if (description  === \"Empty credentials\") {",
+							"        // Test case: Verify that login fails with empty credentials",
+							"        pm.test(\"Login Should fail  with empty credentials\", function() {",
+							"            pm.expect(pm.response.code).to.eql(400);",
+							"            console.log(\"Login failed: Empty credentials.\");",
+							"            //  postman.setNextRequest(null);",
+							"        });",
+							"    }",
+							"",
+							"   var token=jsonData.accessToken;",
+							"   pm.environment.set(\"accessToken\",token);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "accept-language",
+						"value": "en-US,en;q=0.9"
+					},
+					{
+						"key": "content-type",
+						"value": "application/json"
+					},
+					{
+						"key": "origin",
+						"value": "https://ayssoftwaresolution.coalitionify.com"
+					},
+					{
+						"key": "priority",
+						"value": "u=1, i"
+					},
+					{
+						"key": "referer",
+						"value": "https://ayssoftwaresolution.coalitionify.com/"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\"Google Chrome\";v=\"129\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"129\""
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "sec-ch-ua-platform",
+						"value": "\"macOS\""
+					},
+					{
+						"key": "sec-fetch-dest",
+						"value": "empty"
+					},
+					{
+						"key": "sec-fetch-mode",
+						"value": "cors"
+					},
+					{
+						"key": "sec-fetch-site",
+						"value": "same-site"
+					},
+					{
+						"key": "user-agent",
+						"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"email\":\"{{username}}\",\n\"password\":\"{{password}}\"\n}\n\n"
+				},
+				"url": {
+					"raw": "https://api.coalitionify.com/app-builder/api/v1/auth/sign-in",
+					"protocol": "https",
+					"host": [
+						"api",
+						"coalitionify",
+						"com"
+					],
+					"path": [
+						"app-builder",
+						"api",
+						"v1",
+						"auth",
+						"sign-in"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_OrgDetails_api",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"var response=pm.response.json();",
+							"var orgId=response.org_id;",
+							"var email=response.email;",
+							"var userid=response.id;",
+							"var contactNumber=response.contact_number;",
+							" ",
+							"",
+							"pm.environment.set(\"org_id\",orgId);",
+							"pm.environment.set(\"org_email\",email);",
+							"pm.environment.set(\"adminUserId\",userid);",
+							"pm.environment.set(\"orgContactNumber\",contactNumber);",
+							"",
+							"",
+							"//.       tests          //",
+							"",
+							"var description = pm.iterationData.get(\"description\") || pm.environment.get(\"description\");",
+							"if(description === \"Empty credentials\" || description  === \"Invalid credentials\")",
+							"{",
+							"// should fail for empty/invalid credetials and return 400 status",
+							" pm.test(\"Should fail for empty/invalid credetials and return 401 status\", function () {",
+							"            pm.expect(pm.response.code).to.eql(401);",
+							"        });",
+							"}",
+							"else{",
+							"pm.test(\"Response body contains mandatory fields- email, org_id, contact_number, and _id \", function () {",
+							"    var response = pm.response.json();",
+							"    pm.expect(response).to.have.property('email');",
+							"    pm.expect(response).to.have.property('org_id');",
+							"    pm.expect(response).to.have.property('contact_number');",
+							"    pm.expect(response).to.have.property('id');",
+							"});",
+							"",
+							"// Test to validate that all the fields email, org_id, contact_number, and _id should have non-null values",
+							"pm.test(\"All mandatory fields should have non-null values\", function () {",
+							"    var response = pm.response.json();",
+							"    pm.expect(response.email).to.not.be.null;",
+							"    pm.expect(response.org_id).to.not.be.null;",
+							"    pm.expect(response.contact_number).to.not.be.null;",
+							"    pm.expect(response.id).to.not.be.null;",
+							"});",
+							"",
+							"",
+							"pm.test(\"Validate if the feild isVerified in response should be true\", function(){",
+							"   var response= pm.response.json();",
+							"   pm.expect(response.isVerified).to.be.true;",
+							"});",
+							"",
+							"}",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.coalitionify.com/app-builder/api/v1/auth/get-me",
+					"protocol": "https",
+					"host": [
+						"api",
+						"coalitionify",
+						"com"
+					],
+					"path": [
+						"app-builder",
+						"api",
+						"v1",
+						"auth",
+						"get-me"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
