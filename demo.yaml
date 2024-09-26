@@ -5,12 +5,13 @@ on:
     branches:
       - main
     paths:
-      - "apps/admin-web-app/**"
-      - ".github/workflows/dev-admin-web-app.yml"
+      - "https://github.com/sumedhraj123/Postman/edit/main/demo.yaml"
   workflow_dispatch:
 
 env:
   AWS_REGION: ap-south-1  
+
+workflow_dispatch:   
 
 jobs:
   build:
@@ -40,9 +41,9 @@ jobs:
 
     - name: Run Postman Collection
       run: |
-        newman run <path-to-your-collection-file> \
-        --environment <path-to-your-environment-file> \
-        --iteration-data <path-to-your-data-file> \
-        --reporters cli,junit --reporter-junit-export results.xml
+        newman run <https://github.com/sumedhraj123/Postman/edit/main/Coalitionify-.postman_collection.json> 
+        -e <https://github.com/sumedhraj123/Postman/edit/main/Coalitionify.postman_environment.json> \
+        -d <<https://github.com/sumedhraj123/Postman/edit/main/data.json> \
+        -r htmlextra --reporter-htmlextra-export C:\Users\AYSUSER\Desktop\coalitionify-platform\index.html
       continue-on-error: true
        
