@@ -39,9 +39,9 @@ jobs:
 
     - name: Run Postman Collection
       run: |
-        newman run ./Coalitionify-.postman_collection.json \
-        -e ./Coalitionify.postman_environment.json \
-        -d ./data.json> \
+        newman run Coalitionify-.postman_collection.json \
+        -e Coalitionify.postman_environment.json \
+        -d data.json> \
         -r htmlextra --reporter-htmlextra-export ./index.html
       continue-on-error: true
        
