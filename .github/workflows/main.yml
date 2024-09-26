@@ -44,4 +44,14 @@ jobs:
         --iteration-data data.json \
         --reporters cli,htmlextra \
         --reporter-htmlextra-export ./newman-report.html || echo "Test failed"
+
+    - name: send email
+      run: |
+            MAIL_HOST = smtp.gmail.com
+            MAIL_PORT = 587
+            MAIL_SECURE = false
+            MAIL_USER = sumedh.joshi@ayssoftwaresolution.com
+            MAIL_PASS = lsxb kgnq ifsi qant
+            MAIL_FROM = no-reply@ayssoftwaresolution.com
+            
        
