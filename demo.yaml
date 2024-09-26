@@ -1,0 +1,48 @@
+name: Coalitionify_api
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "apps/admin-web-app/**"
+      - ".github/workflows/dev-admin-web-app.yml"
+  workflow_dispatch:
+
+env:
+  AWS_REGION: ap-south-1  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20]
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install dependencies
+      run: |
+            npm install --global yarn
+            yarn install
+
+    - name: Install Newman
+      run: |
+            npm install -g newman
+            npm install -g newman-reporter-htmlextra
+
+    - name: Run Postman Collection
+      run: |
+        newman run <path-to-your-collection-file> \
+        --environment <path-to-your-environment-file> \
+        --iteration-data <path-to-your-data-file> \
+        --reporters cli,junit --reporter-junit-export results.xml
+      continue-on-error: true
+       
