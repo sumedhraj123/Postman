@@ -40,8 +40,8 @@ jobs:
     - name: Run Postman Collection
       run: |
         newman run Coalitionify-.postman_collection.json \
-        -e Coalitionify.postman_environment.json \
-        -d data.json> \
-        -r htmlextra --reporter-htmlextra-export ./index.html
-      continue-on-error: true
+        --environment Coalitionify.postman_environment.json \
+        --iteration-data data.json \
+        --reporters cli,htmlextra \
+        --reporter-htmlextra-export ./newman-report.html || echo "Test failed"
        
